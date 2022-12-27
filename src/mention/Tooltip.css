@@ -1,0 +1,7 @@
+.MentionTooltip > div {
+    border-top: 1px solid pink;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    background-color: antiquewhite;
+}
