@@ -89,7 +89,6 @@ export default function useMentionTooltip(
     }
 
     const usernameFilter = htmlBeforeSelection.includes('@') && getUsernameFilter(htmlBeforeSelection);
-    console.log('usernameFilter', usernameFilter)
 
     if (usernameFilter) {
       const filter = usernameFilter ? usernameFilter.substr(1) : '';
@@ -140,7 +139,7 @@ export default function useMentionTooltip(
     unmarkIsOpen();
   }, [htmlBeforeSelection, inputSelector, onUpdateHtml, unmarkIsOpen]);
 
-  console.log('isMentionTooltipOpen', isOpen)
+  // console.log('isMentionTooltipOpen', isOpen)
 
   return {
     isMentionTooltipOpen: isOpen,

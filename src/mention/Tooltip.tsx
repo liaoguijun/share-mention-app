@@ -88,9 +88,9 @@ const MentionTooltip:any = ({
 
   return (
     <div className={className} ref={containerRef}>
-      {isOpen && renderedChatMembers?.map(({ id }, index) => (
-        <div key={id} onClick={() => handleUserSelect(id)}>
-          <div>{id}</div>
+      {isOpen && renderedChatMembers?.map(({ id, firstName }, index) => (
+        <div key={id} onClick={() => handleUserSelect(id)} className={selectedMentionIndex === index ? 'active' : ''}>
+          <div>{firstName}</div>
         </div>
       ))}
     </div>

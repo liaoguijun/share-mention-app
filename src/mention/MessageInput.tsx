@@ -153,6 +153,8 @@ const MessageInput: FC<OwnProps & StateProps> = ({
         focusEditableElement(inputRef.current!, true);
       }
     }
+    
+    document.dispatchEvent(new CustomEvent('selectionchangeCustom', {detail: {}}))
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
