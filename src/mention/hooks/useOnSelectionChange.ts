@@ -17,7 +17,7 @@ export default function useOnSelectionChange(container: HTMLElement | null, call
       }
     };
 
-    document.addEventListener('selectionchangeCustom', onSelectionChange);
-    return () => document.removeEventListener('selectionchangeCustom', onSelectionChange);
+    document.addEventListener('selectionchange', onSelectionChange);
+    return () => document.removeEventListener('selectionchange', onSelectionChange);
   }, [callback, container]);
 }

@@ -154,7 +154,7 @@ const MessageInput: FC<OwnProps & StateProps> = ({
       }
     }
     
-    document.dispatchEvent(new CustomEvent('selectionchangeCustom', {detail: {}}))
+    document.dispatchEvent(new CustomEvent('selectionchange', {detail: {}}))
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
