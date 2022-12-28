@@ -1,8 +1,6 @@
 import {
   useCallback, useEffect, useState,
 } from 'react';
-import { getGlobal } from '../global';
-
 import type { ApiChatMember, ApiUser } from '../types';
 import { ApiMessageEntityTypes } from '../types';
 
@@ -17,6 +15,7 @@ import useFlag from '../hooks/useFlag';
 import useCacheBuster from '../hooks/useCacheBuster';
 import useOnSelectionChange from '../hooks/useOnSelectionChange';
 import { usersById } from '../index'
+import { EDITABLE_INPUT_CSS_SELECTOR } from '../environment'
 
 const runThrottled = throttle((cb) => cb(), 500, true);
 let RE_USERNAME_SEARCH: RegExp;
@@ -28,12 +27,11 @@ try {
   RE_USERNAME_SEARCH = /(^|\s)@[-_\d\wа-яё]*$/gi;
 }
 
+const inputSelector = EDITABLE_INPUT_CSS_SELECTOR
+
 export default function useMentionTooltip(
-  canSuggestMembers: boolean | undefined,
-  inputSelector: string,
   onUpdateHtml: (html: string) => void,
   groupChatMembers?: ApiChatMember[],
-  topInlineBotIds?: string[],
   currentUserId?: string,
 ) {
   const [isOpen, markIsOpen, unmarkIsOpen] = useFlag();
@@ -41,11 +39,8 @@ export default function useMentionTooltip(
   const [usersToMention, setUsersToMention] = useState<ApiUser[] | undefined>();
 
   const updateFilteredUsers = useCallback((filter:any, withInlineBots: boolean) => {
-    // No need for expensive global updates on users, so we avoid them
-    // const usersById = getGlobal().users.byId;
-    
 
-    if (!(groupChatMembers || topInlineBotIds) || !usersById) {
+    if (!usersById) {
       setUsersToMention(undefined);
       return;
     }
@@ -59,14 +54,13 @@ export default function useMentionTooltip(
       }, []);
 
       const filteredIds = filterUsersByName(unique([
-        ...((withInlineBots && topInlineBotIds) || []),
         ...(memberIds || []),
       ]), usersById, filter);
 
       // @ts-ignore
       setUsersToMention(Object.values(pickTruthy(usersById, filteredIds)));
     });
-  }, [currentUserId, groupChatMembers, topInlineBotIds]);
+  }, [currentUserId, groupChatMembers,]);
 
   const [cacheBuster, updateCacheBuster] = useCacheBuster();
 
@@ -83,7 +77,7 @@ export default function useMentionTooltip(
   }, [inputSelector, cacheBuster]);
 
   useEffect(() => {
-    if (!canSuggestMembers || !htmlBeforeSelection.length) {
+    if (!htmlBeforeSelection.length) {
       unmarkIsOpen();
       return;
     }
@@ -97,7 +91,7 @@ export default function useMentionTooltip(
     } else {
       unmarkIsOpen();
     }
-  }, [canSuggestMembers, updateFilteredUsers, markIsOpen, unmarkIsOpen, htmlBeforeSelection]);
+  }, [updateFilteredUsers, markIsOpen, unmarkIsOpen, htmlBeforeSelection]);
 
   useEffect(() => {
     if (usersToMention?.length) {
@@ -139,7 +133,6 @@ export default function useMentionTooltip(
     unmarkIsOpen();
   }, [htmlBeforeSelection, inputSelector, onUpdateHtml, unmarkIsOpen]);
 
-  // console.log('isMentionTooltipOpen', isOpen)
 
   return {
     isMentionTooltipOpen: isOpen,
@@ -151,7 +144,6 @@ export default function useMentionTooltip(
 
 function getUsernameFilter(html: string) {
   const username = prepareForRegExp(html).match(RE_USERNAME_SEARCH);
-
   return username ? username[0].trim() : undefined;
 }
 
