@@ -13,8 +13,8 @@ export const usersById = {
     "1": {
         id: '1',
         type: "userTypeRegular",
-        firstName: '张三',
-        usernames: [{username:'张三', isActive: true}]
+        firstName: '张三第三款减肥可乐三等奖',
+        usernames: [{username:'张三第三款减肥可乐三等奖', isActive: true}]
     },
     "2": {
         id: '2',
@@ -44,6 +44,22 @@ export default function() {
         const { text, entities } = parseMessageInput(html);
         console.log(text)
         console.log(entities)
+        let textReplace = text
+
+        if(entities) {
+            for(let i = entities.length - 1; i >= 0; i--) {
+                // @ts-ignore
+                const { offset, length, userId } = entities[i]
+                textReplace = replacepos(textReplace, offset, offset + length - 1, `@<${userId}>`)
+            }
+        }
+
+        console.log(textReplace)
+
+        function replacepos(text: string,start: number, stop: number, replacetext: string){
+            return text.substring(0,start-1)+replacetext+text.substring(stop+1);
+        }
+
     }, [html])
 
     return (
