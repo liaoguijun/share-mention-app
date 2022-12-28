@@ -159,3 +159,49 @@ export enum FocusDirection {
   Down,
   Static,
 }
+
+export interface ApiFormattedText {
+  text: string;
+  entities?: ApiMessageEntity[];
+}
+
+export type ApiMessageEntity = ApiMessageEntityDefault | ApiMessageEntityPre | ApiMessageEntityTextUrl |
+ApiMessageEntityMentionName | ApiMessageEntityCustomEmoji;
+
+export type ApiMessageEntityDefault = {
+  type: Exclude<
+  `${ApiMessageEntityTypes}`,
+  `${ApiMessageEntityTypes.Pre}` | `${ApiMessageEntityTypes.TextUrl}` | `${ApiMessageEntityTypes.MentionName}` |
+  `${ApiMessageEntityTypes.CustomEmoji}`
+  >;
+  offset: number;
+  length: number;
+};
+
+export type ApiMessageEntityPre = {
+  type: ApiMessageEntityTypes.Pre;
+  offset: number;
+  length: number;
+  language?: string;
+};
+
+export type ApiMessageEntityTextUrl = {
+  type: ApiMessageEntityTypes.TextUrl;
+  offset: number;
+  length: number;
+  url: string;
+};
+
+export type ApiMessageEntityMentionName = {
+  type: ApiMessageEntityTypes.MentionName;
+  offset: number;
+  length: number;
+  userId: string;
+};
+
+export type ApiMessageEntityCustomEmoji = {
+  type: ApiMessageEntityTypes.CustomEmoji;
+  offset: number;
+  length: number;
+  documentId: string;
+};

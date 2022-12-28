@@ -3,6 +3,7 @@ import MessageInput from './MessageInput';
 import Tooltip from './Tooltip'
 import useMentionTooltip from './hooks/useMentionTooltip';
 import './index.css';
+import parseMessageInput from './util/parseMessageInput'
 
 const groupChatMembers = [{userId: '1'},{userId: '2'}]
 
@@ -39,6 +40,12 @@ export default function() {
         currentUserId,
     );
 
+    const handleSend = useCallback( async () => {
+        const { text, entities } = parseMessageInput(html);
+        console.log(text)
+        console.log(entities)
+    }, [html])
+
     return (
         <>
             <Tooltip
@@ -51,7 +58,7 @@ export default function() {
                 html={html}
                 placeholder={'Write a message'}
                 onUpdate={setHtml}
-                onSend={() => {}}
+                onSend={handleSend}
             />
         </>
     )

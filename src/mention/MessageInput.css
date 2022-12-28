@@ -47,3 +47,12 @@
 .scrollbars-hidden::-webkit-scrollbar {
     display: none;
 }
+
+.text-entity-link {
+    color: skyblue !important;
+    cursor: default;
+    text-decoration: none;
+}
+.text-entity-link:hover,.text-entity-link:active,.text-entity-link:visited {
+    text-decoration: underline !important;
+}

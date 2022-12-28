@@ -30,3 +30,5 @@ export const FAST_SMOOTH_MAX_DISTANCE = 1500;
 export const FAST_SMOOTH_MIN_DURATION = 250;
 export const FAST_SMOOTH_MAX_DURATION = 600;
 export const FAST_SMOOTH_SHORT_TRANSITION_MAX_DISTANCE = 500; // px
+
+export const RE_LINK_TEMPLATE = '((ftp|https?):\\/\\/)?((www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,63})\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)';

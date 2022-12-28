@@ -107,7 +107,7 @@ export default function useMentionTooltip(
     }
 
     const mainUsername = getMainUsername(user);
-    const insertedHtml = mainUsername
+    const insertedHtml = !mainUsername
       ? `@${mainUsername}`
       : `<a
           class="text-entity-link"
